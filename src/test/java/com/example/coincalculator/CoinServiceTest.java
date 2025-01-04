@@ -20,7 +20,7 @@ class CoinServiceTest {
 
         CoinResponse response = coinService.calculateMinimumCoins(request);
 
-        assertEquals(Arrays.asList(5.0, 1.0, 1.0, 0.01, 0.01, 0.01), response.getCoinsUsed());
+        assertEquals(Arrays.asList(0.01, 0.01, 0.01, 1.0, 1.0, 5.0), response.getCoinsUsed());
     }
 
     @Test
@@ -34,5 +34,16 @@ class CoinServiceTest {
         });
 
         assertEquals("The target amount must be between 0 and 10,000.", exception.getMessage());
+    }
+
+    @Test
+    void testCalculateMinimumCoinsWithLargeTargetAmount() {
+        CoinRequest request = new CoinRequest();
+        request.setTargetAmount(103.0);
+        request.setDenominations(Arrays.asList(1.0, 2.0, 50.0));
+
+        CoinResponse response = coinService.calculateMinimumCoins(request);
+
+        assertEquals(Arrays.asList(1.0, 2.0, 50.0, 50.0), response.getCoinsUsed());
     }
 }
