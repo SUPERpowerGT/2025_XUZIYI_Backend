@@ -14,7 +14,7 @@ public class CoinService {
         List<Double> denominations = request.getDenominations();
 
         if (targetAmount < 0 || targetAmount > 10000.0) {
-            throw new IllegalArgumentException("目标金额必须在 0 到 10,000 之间。");
+            throw new IllegalArgumentException("The target amount must be between 0 and 10,000.");
         }
 
         List<Double> coinsUsed = new ArrayList<>();

@@ -18,22 +18,19 @@ public class CoinCalculatorApplication extends Application<CoinCalculatorConfigu
 
     @Override
     public void initialize(Bootstrap<CoinCalculatorConfiguration> bootstrap) {
-        // 初始化逻辑
     }
 
     @Override
     public void run(CoinCalculatorConfiguration configuration, Environment environment) {
-        // 启用 CORS
-        final FilterRegistration.Dynamic cors =
-                environment.servlets().addFilter("CORS", CrossOriginFilter.class);
 
-        cors.setInitParameter(CrossOriginFilter.ALLOWED_ORIGINS_PARAM, "http://localhost:3000"); // 允许前端访问的来源
+        final FilterRegistration.Dynamic cors = environment.servlets().addFilter("CORS", CrossOriginFilter.class);
+
+        cors.setInitParameter(CrossOriginFilter.ALLOWED_ORIGINS_PARAM, "http://localhost:3000");
         cors.setInitParameter(CrossOriginFilter.ALLOWED_HEADERS_PARAM, "Authorization,Content-Type,Accept,Origin");
         cors.setInitParameter(CrossOriginFilter.ALLOWED_METHODS_PARAM, "OPTIONS,GET,POST,PUT,DELETE,HEAD");
-        cors.setInitParameter(CrossOriginFilter.ALLOW_CREDENTIALS_PARAM, "true"); // 允许带 Cookie
+        cors.setInitParameter(CrossOriginFilter.ALLOW_CREDENTIALS_PARAM, "true");
         cors.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), true, "/*");
 
-        // 注册资源类
         environment.jersey().register(new CoinCalculatorResource());
     }
 }
