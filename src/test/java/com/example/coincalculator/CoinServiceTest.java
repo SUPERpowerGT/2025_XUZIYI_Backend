@@ -33,6 +33,6 @@ class CoinServiceTest {
             coinService.calculateMinimumCoins(request);
         });
 
-        assertEquals("目标金额必须在 0 到 10,000 之间。", exception.getMessage());
+        assertEquals("The target amount must be between 0 and 10,000.", exception.getMessage());
     }
 }
