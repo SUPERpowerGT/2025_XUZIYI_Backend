@@ -13,37 +13,39 @@ class CoinServiceTest {
     private final CoinService coinService = new CoinService();
 
     @Test
-    void testCalculateMinimumCoins() {
+    void testCalculateMinimumCoins_ValidCase() {
         CoinRequest request = new CoinRequest();
-        request.setTargetAmount(7.03);
-        request.setDenominations(Arrays.asList(0.01, 0.5, 1.0, 5.0, 10.0));
+        request.setTargetAmount(126.5);
+        request.setDenominations(Arrays.asList(0.5, 2.0, 5.0, 10.0, 50.0, 100.0));
 
         CoinResponse response = coinService.calculateMinimumCoins(request);
 
-        assertEquals(Arrays.asList(0.01, 0.01, 0.01, 1.0, 1.0, 5.0), response.getCoinsUsed());
+        assertEquals(Arrays.asList(0.5, 2.0, 2.0, 2.0, 10.0, 10.0, 100.0), response.getCoinsUsed());
     }
 
     @Test
-    void testInvalidTargetAmount() {
+    void testInvalidDenominations() {
         CoinRequest request = new CoinRequest();
-        request.setTargetAmount(10001.0);
-        request.setDenominations(Arrays.asList(0.01, 0.5, 1.0, 5.0, 10.0));
+        request.setTargetAmount(126.5);
+        request.setDenominations(Arrays.asList(3.0, 5.0));
 
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
             coinService.calculateMinimumCoins(request);
         });
 
-        assertEquals("The target amount must be between 0 and 10,000.", exception.getMessage());
+        assertEquals("Invalid coin denomination:3.0. Valid denominations include:[0.01, 0.05, 0.1, 0.2, 0.5, 1.0, 2.0, 5.0, 10.0, 50.0, 100.0, 1000.0]", exception.getMessage());
     }
 
     @Test
-    void testCalculateMinimumCoinsWithLargeTargetAmount() {
+    void testUnconstructibleTargetAmount() {
         CoinRequest request = new CoinRequest();
-        request.setTargetAmount(103.0);
-        request.setDenominations(Arrays.asList(1.0, 2.0, 50.0));
+        request.setTargetAmount(126.25);
+        request.setDenominations(Arrays.asList(0.5, 2.0, 5.0));
 
-        CoinResponse response = coinService.calculateMinimumCoins(request);
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            coinService.calculateMinimumCoins(request);
+        });
 
-        assertEquals(Arrays.asList(1.0, 2.0, 50.0, 50.0), response.getCoinsUsed());
+        assertEquals("Cannot use the coin denominations provided to raise the target amount.", exception.getMessage());
     }
 }
