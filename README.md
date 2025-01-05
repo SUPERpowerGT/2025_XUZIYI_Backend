@@ -1,4 +1,4 @@
-# CoinCalculator
+# Coin Calculator - Backend
 
 CoinCalculator is a Java-based project that aims to calculate the minimum number of coins needed to reach a target amount. It utilizes the Dropwizard framework for API development and comes with comprehensive test cases to ensure its functionality.
 
@@ -67,14 +67,9 @@ Example POST request payload:
 ```
 
 ## Docker Deployment
-1. Build the Docker image:
-```bash
-docker build -t coin-calculator.
-```
-2. Run the Docker container:
-```bash
-docker run -p 8080:8080 coin-calculator
-```
+click the link to see:
+https://github.com/SUPERpowerGT/2025_XUZIYI_Frontend?tab=readme-ov-file#docker-deployment
+
 
 ## API Endpoints
 - **POST /calculate**:
